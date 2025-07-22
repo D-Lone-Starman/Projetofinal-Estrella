@@ -1,88 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* BookVerse Design System - Literary theme with elegant colors */
 
 @layer base {
   :root {
+    /* BookVerse Brand Colors - Rich literary theme */
+    --primary: 25 35% 15%; /* Deep burgundy */
+    --primary-foreground: 45 85% 95%;
+    --primary-glow: 25 45% 35%; /* Lighter burgundy */
+    --primary-variant: 25 50% 25%; /* Medium burgundy */
+    
+    --secondary: 45 80% 60%; /* Warm gold */
+    --secondary-foreground: 25 35% 15%;
+    --secondary-glow: 45 85% 75%; /* Light gold */
+    
+    --accent: 200 75% 55%; /* Elegant blue */
+    --accent-foreground: 0 0% 98%;
+    --accent-glow: 200 80% 70%; /* Light blue */
+    
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
+    --foreground: 25 35% 15%;
+    
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
+    --card-foreground: 25 35% 15%;
+    
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
+    --popover-foreground: 25 35% 15%;
+    
+    --muted: 25 10% 95%;
+    --muted-foreground: 25 15% 45%;
+    
+    --border: 25 15% 90%;
+    --input: 25 15% 90%;
+    --ring: 25 35% 15%;
+    
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    
+    --success: 120 60% 50%;
+    --success-foreground: 0 0% 98%;
+    
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --background: 25 35% 8%;
+    --foreground: 45 85% 95%;
+    
+    --card: 25 30% 12%;
+    --card-foreground: 45 85% 95%;
+    
+    --popover: 25 30% 12%;
+    --popover-foreground: 45 85% 95%;
+    
+    --primary: 45 80% 60%;
+    --primary-foreground: 25 35% 15%;
+    --primary-glow: 45 85% 75%;
+    --primary-variant: 45 75% 50%;
+    
+    --secondary: 25 35% 15%;
+    --secondary-foreground: 45 85% 95%;
+    
+    --muted: 25 25% 18%;
+    --muted-foreground: 45 25% 65%;
+    
+    --accent: 200 75% 55%;
+    --accent-foreground: 25 35% 8%;
+    
+    --border: 25 25% 22%;
+    --input: 25 25% 22%;
+    --ring: 45 80% 60%;
+    
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -100,6 +100,40 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-['Inter'];
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  .bookverse-title {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@layer components {
+  .bookverse-gradient {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-variant)));
+  }
+  
+  .bookverse-secondary-gradient {
+    background: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--secondary-glow)));
+  }
+  
+  .bookverse-hero {
+    background: linear-gradient(135deg, hsl(var(--primary) / 0.95), hsl(var(--primary-variant) / 0.9));
+  }
+  
+  .glass-card {
+    @apply bg-card/80 backdrop-blur-md border border-border/50;
+    box-shadow: 0 8px 32px -8px hsl(var(--primary) / 0.15);
+  }
+  
+  .bookverse-card {
+    @apply bg-card border border-border rounded-lg transition-all duration-300;
+    box-shadow: 0 4px 16px -2px hsl(var(--primary) / 0.1);
+  }
+  
+  .bookverse-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px -4px hsl(var(--primary) / 0.2);
   }
 }
