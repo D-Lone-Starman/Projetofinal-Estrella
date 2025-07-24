@@ -32,20 +32,26 @@ export const useCart = () => {
       const existingItem = prevItems.find(item => item.id === book.id);
       
       if (existingItem) {
-        toast({
-          title: "Item atualizado",
-          description: `Quantidade de "${book.title}" atualizada no carrinho.`,
-        });
+        // Use setTimeout to defer the toast call after state update
+        setTimeout(() => {
+          toast({
+            title: "Item atualizado",
+            description: `Quantidade de "${book.title}" atualizada no carrinho.`,
+          });
+        }, 0);
         return prevItems.map(item =>
           item.id === book.id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       } else {
-        toast({
-          title: "Item adicionado",
-          description: `"${book.title}" foi adicionado ao carrinho.`,
-        });
+        // Use setTimeout to defer the toast call after state update
+        setTimeout(() => {
+          toast({
+            title: "Item adicionado",
+            description: `"${book.title}" foi adicionado ao carrinho.`,
+          });
+        }, 0);
         return [...prevItems, { ...book, quantity: 1 }];
       }
     });
@@ -55,10 +61,13 @@ export const useCart = () => {
     setItems(prevItems => {
       const item = prevItems.find(item => item.id === bookId);
       if (item) {
-        toast({
-          title: "Item removido",
-          description: `"${item.title}" foi removido do carrinho.`,
-        });
+        // Use setTimeout to defer the toast call after state update
+        setTimeout(() => {
+          toast({
+            title: "Item removido",
+            description: `"${item.title}" foi removido do carrinho.`,
+          });
+        }, 0);
       }
       return prevItems.filter(item => item.id !== bookId);
     });
@@ -79,10 +88,13 @@ export const useCart = () => {
 
   const clearCart = () => {
     setItems([]);
-    toast({
-      title: "Carrinho limpo",
-      description: "Todos os itens foram removidos do carrinho.",
-    });
+    // Use setTimeout to defer the toast call after state update
+    setTimeout(() => {
+      toast({
+        title: "Carrinho limpo",
+        description: "Todos os itens foram removidos do carrinho.",
+      });
+    }, 0);
   };
 
   const getTotalPrice = () => {
