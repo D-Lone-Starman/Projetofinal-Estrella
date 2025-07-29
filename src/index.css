@@ -13,9 +13,9 @@
     --primary-glow: 25 45% 35%; /* Lighter burgundy */
     --primary-variant: 25 50% 25%; /* Medium burgundy */
     
-    --secondary: 45 80% 60%; /* Warm gold */
+    --secondary: 30 25% 85%; /* Warm cream */
     --secondary-foreground: 25 35% 15%;
-    --secondary-glow: 45 85% 75%; /* Light gold */
+    --secondary-glow: 30 30% 90%; /* Light cream */
     
     --accent: 200 75% 55%; /* Elegant blue */
     --accent-foreground: 0 0% 98%;
@@ -65,10 +65,10 @@
     --popover: 25 30% 12%;
     --popover-foreground: 45 85% 95%;
     
-    --primary: 45 80% 60%;
+    --primary: 30 25% 85%;
     --primary-foreground: 25 35% 15%;
-    --primary-glow: 45 85% 75%;
-    --primary-variant: 45 75% 50%;
+    --primary-glow: 30 30% 90%;
+    --primary-variant: 30 20% 80%;
     
     --secondary: 25 35% 15%;
     --secondary-foreground: 45 85% 95%;
