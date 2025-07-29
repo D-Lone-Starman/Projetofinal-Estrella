@@ -140,7 +140,7 @@ const Index = () => {
                 <SelectContent>
                   <SelectItem value="all">Todos os gêneros</SelectItem>
                   {genres.map(genre => (
-                    <SelectItem key={genre} value={genre}>
+                    <SelectItem key={genre} value={genre} className="text-foreground">
                       {genre}
                     </SelectItem>
                   ))}
