@@ -8,6 +8,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { BookCard } from "@/components/BookCard";
 import { Cart } from "@/components/Cart";
 import { UserBalance } from "@/components/UserBalance";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface Book {
@@ -94,6 +95,7 @@ const Index = () => {
             </div>
             
             <div className="flex items-center gap-4">
+              <ThemeToggle />
               <UserBalance />
               <Cart />
               <Button
