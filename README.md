@@ -7,7 +7,7 @@ Uma plataforma online para explorar, cadastrar e gerenciar livros, criada como p
 ## 🚀 Deploy
 
 Acesse a aplicação em produção pela Vercel:  
-🔗 [https://bookverse.vercel.app](https://bookverse.vercel.app)
+🔗 https://preview--projeto-final-estrella.lovable.app/auth
 
 ---
 
