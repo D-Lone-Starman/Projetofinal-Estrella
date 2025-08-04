@@ -74,7 +74,7 @@ export const UserBalance = () => {
       <CardContent className="p-3">
         <div className="flex items-center gap-2">
           <Wallet className="h-4 w-4 text-secondary" />
-          <span className="text-sm font-medium text-foreground">Saldo:</span>
+          <span className="text-sm font-medium text-black">Saldo:</span>
           {loading ? (
             <Loader2 className="h-4 w-4 animate-spin" />
           ) : (
