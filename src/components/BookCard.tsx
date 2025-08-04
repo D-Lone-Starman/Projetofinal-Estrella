@@ -49,7 +49,7 @@ export const BookCard = ({ book }: BookCardProps) => {
           />
           <Badge 
             variant="secondary" 
-            className="absolute top-2 left-2 bookverse-secondary-gradient border-0 text-secondary-foreground"
+            className="absolute top-2 left-2 bookverse-secondary-gradient border-0 text-black"
           >
             {book.genre}
           </Badge>
