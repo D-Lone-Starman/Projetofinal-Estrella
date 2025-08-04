@@ -194,8 +194,11 @@ const Index = () => {
             <BookOpen className="h-6 w-6 text-primary" />
             <span className="bookverse-title text-xl font-bold">BookVerse</span>
           </div>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground mb-2">
             Sua livraria digital favorita. Descubra, compre e desfrute dos melhores livros.
+          </p>
+          <p className="text-muted-foreground text-sm">
+            © 2025 BookVerse. Todos os direitos reservados.
           </p>
         </div>
       </footer>
