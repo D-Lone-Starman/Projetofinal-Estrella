@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ShoppingCart, Star } from "lucide-react";
 import { useCart } from "@/hooks/useCart";
+import { useNavigate } from "react-router-dom";
 
 interface Book {
   id: string;
@@ -20,6 +21,7 @@ interface BookCardProps {
 
 export const BookCard = ({ book }: BookCardProps) => {
   const { addItem } = useCart();
+  const navigate = useNavigate();
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("pt-BR", {
@@ -28,7 +30,8 @@ export const BookCard = ({ book }: BookCardProps) => {
     }).format(price / 100);
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent triggering the card click
     addItem({
       id: book.id,
       title: book.title,
@@ -38,8 +41,12 @@ export const BookCard = ({ book }: BookCardProps) => {
     });
   };
 
+  const handleCardClick = () => {
+    navigate(`/book/${book.id}`);
+  };
+
   return (
-    <Card className="bookverse-card h-full flex flex-col">
+    <Card className="bookverse-card h-full flex flex-col cursor-pointer transition-transform hover:scale-[1.02]" onClick={handleCardClick}>
       <CardContent className="p-0">
         <div className="relative overflow-hidden rounded-t-lg">
           <img
