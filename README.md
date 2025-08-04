@@ -14,7 +14,11 @@ Acesse a aplicação em produção pela Vercel:
 ## 🧪 Como testar localmente
 
 1. **Clone o repositório:**
-
-```bash
 git clone https://github.com/seu-usuario/ProjetoFinalEstrella.git
 cd ProjetoFinalEstrella
+
+2.Instale as dependências:
+npm install
+
+3.Execute o projeto:
+npm run dev
