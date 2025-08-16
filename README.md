@@ -6,7 +6,7 @@ Uma plataforma online para explorar, cadastrar e gerenciar livros, criada como p
 
 ## 🚀 Deploy
 
-Acesse a aplicação em produção pela Vercel:  
+Acesse a aplicação em produção hosteada no firebase:  
 🔗 (https://projeto-final-c21d3.web.app/)
 
 ---
