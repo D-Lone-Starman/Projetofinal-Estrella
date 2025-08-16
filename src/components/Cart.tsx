@@ -6,7 +6,8 @@ import { Separator } from "@/components/ui/separator";
 import { ShoppingCart, Minus, Plus, Trash2, CreditCard } from "lucide-react";
 import { useCart } from "@/hooks/useCart";
 import { useAuth } from "@/hooks/useAuth";
-import { supabase } from "@/integrations/supabase/client";
+import { db } from "@/firebaseConfig";
+import { doc, getDoc, updateDoc, addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { useToast } from "@/hooks/use-toast";
 
 export const Cart = () => {
@@ -46,71 +47,62 @@ export const Cart = () => {
 
     try {
       // Check user balance
-      const { data: profile, error: profileError } = await supabase
-        .from("profiles")
-        .select("balance")
-        .eq("user_id", user.id)
-        .single();
+      const profileRef = doc(db, "profiles", user.uid);
+      const profileSnap = await getDoc(profileRef);
+      
+      if (!profileSnap.exists()) {
+        toast({
+          title: "Erro",
+          description: "Perfil de usuário não encontrado.",
+          variant: "destructive",
+        });
+        return;
+      }
 
-      if (profileError) throw profileError;
-
+      const profileData = profileSnap.data();
+      const userBalance = profileData?.balance || 0;
       const totalPrice = getTotalPrice();
 
-      if (profile.balance < totalPrice) {
+      if (userBalance < totalPrice) {
         toast({
           title: "Saldo insuficiente",
-          description: `Você precisa de ${formatPrice(totalPrice - profile.balance)} a mais para completar esta compra.`,
+          description: `Você precisa de ${formatPrice(totalPrice - userBalance)} a mais para completar esta compra.`,
           variant: "destructive",
         });
         return;
       }
 
       // Create order
-      const { data: order, error: orderError } = await supabase
-        .from("orders")
-        .insert({
-          user_id: user.id,
-          total_amount: totalPrice,
-          status: "completed",
-        })
-        .select()
-        .single();
-
-      if (orderError) throw orderError;
+      const orderRef = await addDoc(collection(db, "orders"), {
+        user_id: user.uid,
+        total_amount: totalPrice,
+        status: "completed",
+        created_at: serverTimestamp(),
+      });
 
       // Create order items
-      const orderItems = items.map(item => ({
-        order_id: order.id,
-        book_id: item.id,
-        quantity: item.quantity,
-        unit_price: item.price,
-      }));
-
-      const { error: itemsError } = await supabase
-        .from("order_items")
-        .insert(orderItems);
-
-      if (itemsError) throw itemsError;
+      for (const item of items) {
+        await addDoc(collection(db, "order_items"), {
+          order_id: orderRef.id,
+          book_id: item.id,
+          quantity: item.quantity,
+          unit_price: item.price,
+        });
+      }
 
       // Update user balance
-      const { error: balanceError } = await supabase
-        .from("profiles")
-        .update({ balance: profile.balance - totalPrice })
-        .eq("user_id", user.id);
-
-      if (balanceError) throw balanceError;
+      await updateDoc(profileRef, {
+        balance: userBalance - totalPrice,
+      });
 
       // Add transaction record
-      const { error: transactionError } = await supabase
-        .from("transactions")
-        .insert({
-          user_id: user.id,
-          amount: -totalPrice,
-          type: "purchase",
-          description: `Compra de ${getTotalItems()} livro(s)`,
-        });
-
-      if (transactionError) throw transactionError;
+      await addDoc(collection(db, "transactions"), {
+        user_id: user.uid,
+        amount: -totalPrice,
+        type: "purchase",
+        description: `Compra de ${getTotalItems()} livro(s)`,
+        created_at: serverTimestamp(),
+      });
 
       clearCart();
       setIsOpen(false);

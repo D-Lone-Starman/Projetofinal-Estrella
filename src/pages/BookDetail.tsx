@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
+import { db } from "@/firebaseConfig";
+import { doc, getDoc } from "firebase/firestore";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, ShoppingCart, BookOpen } from "lucide-react";
@@ -40,29 +41,23 @@ const BookDetail = () => {
         return;
       }
 
+    const fetchBook = async () => {
       try {
-        const { data, error } = await supabase
-          .from("books")
-          .select("*")
-          .eq("id", id)
-          .maybeSingle();
-
-        if (error) throw error;
-
-        if (!data) {
-          toast.error("Livro não encontrado");
+        const bookRef = doc(db, "books", id);
+        const bookSnap = await getDoc(bookRef);
+        
+        if (bookSnap.exists()) {
+          setBook({ id: bookSnap.id, ...bookSnap.data() } as Book);
+        } else {
+          console.log("No such document!");
           navigate("/");
-          return;
         }
-
-        setBook(data);
       } catch (error) {
         console.error("Error fetching book:", error);
-        toast.error("Erro ao carregar detalhes do livro");
-        navigate("/");
       } finally {
         setLoading(false);
       }
+    };
     };
 
     fetchBook();

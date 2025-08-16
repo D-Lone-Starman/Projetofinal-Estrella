@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { db } from "@/firebaseConfig";
+import { collection, getDocs } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -39,17 +40,16 @@ const Index = () => {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const { data, error } = await supabase
-          .from("books")
-          .select("*")
-          .order("title");
-
-        if (error) throw error;
-
-        setBooks(data || []);
+        const booksRef = collection(db, "books");
+        const snapshot = await getDocs(booksRef);
+        const booksData = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })) as Book[];
+        setBooks(booksData);
         
         // Extract unique genres
-        const uniqueGenres = [...new Set(data?.map(book => book.genre) || [])];
+        const uniqueGenres = [...new Set(booksData.map(book => book.genre).filter(Boolean))];
         setGenres(uniqueGenres);
       } catch (error) {
         console.error("Error fetching books:", error);

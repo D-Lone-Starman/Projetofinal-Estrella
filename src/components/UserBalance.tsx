@@ -3,7 +3,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Wallet, Loader2 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
-import { supabase } from "@/integrations/supabase/client";
+import { db } from "@/firebaseConfig";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
 
 export const UserBalance = () => {
   const { user } = useAuth();
@@ -18,14 +19,14 @@ export const UserBalance = () => {
 
     const fetchBalance = async () => {
       try {
-        const { data, error } = await supabase
-          .from("profiles")
-          .select("balance")
-          .eq("user_id", user.id)
-          .single();
-
-        if (error) throw error;
-        setBalance(data?.balance || 0);
+        const profileRef = doc(db, "profiles", user.uid);
+        const profileSnap = await getDoc(profileRef);
+        
+        if (profileSnap.exists()) {
+          setBalance(profileSnap.data()?.balance || 0);
+        } else {
+          setBalance(0);
+        }
       } catch (error) {
         console.error("Error fetching balance:", error);
         setBalance(0);
@@ -37,27 +38,14 @@ export const UserBalance = () => {
     fetchBalance();
 
     // Set up real-time subscription for balance changes
-    const channel = supabase
-      .channel("balance_changes")
-      .on(
-        "postgres_changes",
-        {
-          event: "UPDATE",
-          schema: "public",
-          table: "profiles",
-          filter: `user_id=eq.${user.id}`,
-        },
-        (payload) => {
-          if (payload.new && typeof payload.new.balance === "number") {
-            setBalance(payload.new.balance);
-          }
-        }
-      )
-      .subscribe();
+    const profileRef = doc(db, "profiles", user.uid);
+    const unsubscribe = onSnapshot(profileRef, (doc) => {
+      if (doc.exists()) {
+        setBalance(doc.data()?.balance || 0);
+      }
+    });
 
-    return () => {
-      supabase.removeChannel(channel);
-    };
+    return () => unsubscribe();
   }, [user]);
 
   const formatPrice = (price: number) => {
