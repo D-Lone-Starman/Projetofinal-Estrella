@@ -10,6 +10,7 @@ import { BookCard } from "@/components/BookCard";
 import { Cart } from "@/components/Cart";
 import { UserBalance } from "@/components/UserBalance";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { PopulateBooksButton } from "@/components/PopulateBooksButton";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface Book {
@@ -171,11 +172,14 @@ const Index = () => {
           ) : filteredBooks.length === 0 ? (
             <div className="text-center py-12">
               <BookOpen className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-              <p className="text-muted-foreground">
+              <p className="text-muted-foreground mb-4">
                 {searchQuery || selectedGenre !== "all" 
                   ? "Nenhum livro encontrado com os filtros aplicados." 
                   : "Nenhum livro disponível no momento."}
               </p>
+              {books.length === 0 && !searchQuery && selectedGenre === "all" && (
+                <PopulateBooksButton />
+              )}
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
